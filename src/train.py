@@ -33,3 +33,9 @@ model = models.Sequential([
     layers.Dense(128, activation='relu'),
     layers.Dense(4, activation='softmax')
 ])
+
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+model.fit(train_data, validation_data=test_data, epochs=10)
+
+model.save("../models/emotion_model.h5")
