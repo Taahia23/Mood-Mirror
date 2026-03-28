@@ -1,9 +1,11 @@
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras import layers, models
+import os
 
-train_dir = "../dataset/fer2013/train"
-test_dir = "../dataset/fer2013/test"
+
+train_dir = "Dataset/fer2013/train"
+test_dir = "Dataset/fer2013/test"
 
 train_data = ImageDataGenerator(rescale=1./255).flow_from_directory(
     train_dir,
@@ -31,11 +33,15 @@ model = models.Sequential([
 
     layers.Flatten(),
     layers.Dense(128, activation='relu'),
-    layers.Dense(4, activation='softmax')
+    layers.Dense(7, activation='softmax')
 ])
 
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 model.fit(train_data, validation_data=test_data, epochs=10)
 
-model.save("../models/emotion_model.h5")
+
+
+os.makedirs("../models", exist_ok=True)
+
+model.save("../models/emotion_model.keras")
