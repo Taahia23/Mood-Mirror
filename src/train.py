@@ -4,28 +4,39 @@ from tensorflow.keras import layers, models
 import os
 
 
-train_dir = "Dataset/fer2013/train"
-test_dir = "Dataset/fer2013/test"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
+
+
+train_dir = os.path.join(ROOT_DIR, "Dataset", "fer2013", "train")
+test_dir = os.path.join(ROOT_DIR, "Dataset", "fer2013", "test")
+
+
+MODEL_DIR = os.path.join(ROOT_DIR, "models")
+os.makedirs(MODEL_DIR, exist_ok=True)
 
 train_data = ImageDataGenerator(rescale=1./255).flow_from_directory(
     train_dir,
-    target_size=(48,48),
+    target_size=(48, 48),
     batch_size=64,
     color_mode="grayscale",
     class_mode="categorical"
 )
 
-
 test_data = ImageDataGenerator(rescale=1./255).flow_from_directory(
     test_dir,
-    target_size=(48,48),
+    target_size=(48, 48),
     batch_size=64,
     color_mode="grayscale",
     class_mode="categorical"
 )
 
 model = models.Sequential([
-    layers.Conv2D(32, (3,3), activation='relu', input_shape=(48,48,1)),
+    layers.Input(shape=(48, 48, 1)),
+
+    layers.Conv2D(32, (3,3), activation='relu'),
     layers.MaxPooling2D(2,2),
 
     layers.Conv2D(64, (3,3), activation='relu'),
@@ -33,15 +44,7 @@ model = models.Sequential([
 
     layers.Flatten(),
     layers.Dense(128, activation='relu'),
-    layers.Dense(7, activation='softmax')
+    layers.Dense(7, activation='softmax') 
 ])
 
-model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-model.fit(train_data, validation_data=test_data, epochs=10)
-
-
-
-os.makedirs("../models", exist_ok=True)
-
-model.save("../models/emotion_model.keras")
