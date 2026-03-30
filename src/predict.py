@@ -12,3 +12,14 @@ suggestions = {
     "Neutral": "Stay positive",
     "Sad": "Take a break & talk to someone"
 }
+
+def predict_emotion(img):
+    img = cv2.resize(img, (48,48))
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    gray = gray / 255.0
+    gray = np.reshape(gray, (1,48,48,1))
+
+    pred = model.predict(gray)
+    emotion = labels[np.argmax(pred)]
+
+    return emotion, suggestions[emotion]
