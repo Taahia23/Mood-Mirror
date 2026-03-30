@@ -48,3 +48,18 @@ model = models.Sequential([
 ])
 
 
+model.compile(
+    optimizer='adam',
+    loss='categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+print("Training started")
+
+model.fit(
+    train_data,
+    validation_data=test_data,
+    epochs=10
+)
+
+
