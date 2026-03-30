@@ -62,4 +62,10 @@ model.fit(
     epochs=10
 )
 
+model_path = os.path.join(MODEL_DIR, "emotion_model.keras")
 
+print("Saving model to:", model_path)
+
+model.save(model_path)
+
+print("Model saved successfully!")
