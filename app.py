@@ -20,3 +20,25 @@ if option == "Upload Image":
         st.image(img, channels="BGR")
         st.write(f"### Emotion: {emotion}")
         st.write(f"Suggestion: {suggestion}")
+
+# 🎥 WEBCAM MODE
+elif option == "Webcam":
+    run = st.checkbox("Start Camera")
+
+    FRAME_WINDOW = st.image([])
+
+    camera = cv2.VideoCapture(0)
+
+    while run:
+        ret, frame = camera.read()
+        if not ret:
+            break
+
+        emotion, suggestion = predict_emotion(frame)
+
+        cv2.putText(frame, emotion, (10,40),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
+
+        FRAME_WINDOW.image(frame, channels="BGR")
+
+    camera.release()
