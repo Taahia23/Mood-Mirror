@@ -4,3 +4,5 @@ import numpy as np
 from src.predict import predict_emotion
 
 st.title("Emotion Detection and Mental Health Support")
+
+option = st.radio("Choose option:", ["Upload Image", "Webcam"])
