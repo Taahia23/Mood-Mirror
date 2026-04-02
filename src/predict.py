@@ -4,13 +4,16 @@ from tensorflow.keras.models import load_model
 
 model = load_model("../models/emotion_model.h5")
 
-labels = ["Angry", "Happy", "Neutral", "Sad"]
+labels = ["Angry", "Disgust", "Fear", "Happy", "Sad", "Surprise", "Neutral"]
 
 suggestions = {
     "Angry": "Try deep breathing",
     "Happy": "Keep smiling",
     "Neutral": "Stay positive",
-    "Sad": "Take a break & talk to someone"
+    "Sad": "Take a break & talk to someone",
+    "Disgust":"Try to be calm",
+    "Fear":"Talk to someone. You are not alone",
+    "Surprise":"Happy to see you surprised"
 }
 
 def predict_emotion(img):
